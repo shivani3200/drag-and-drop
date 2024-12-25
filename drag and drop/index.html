@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and drop using javascript</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <div class="container" style="color: white">hello</div> -->
+
+    <div class="container">
+      <div id="left">
+        <div class="list" draggable="true" style="color: white">
+          <img src="Relationship.png" />List Item 1
+        </div>
+        <div class="list" draggable="true" style="color: white">
+          <img src="Relationship.png" />List Item 2
+        </div>
+        <div class="list" draggable="true" style="color: white">
+          <img src="Relationship.png" />List Item 3
+        </div>
+        <div class="list" draggable="true" style="color: white">
+          <img src="Relationship.png" />List Item 4
+        </div>
+      </div>
+      <div id="right"></div>
+    </div>
+
+    <script>
+      // Get all draggable items (elements with the class "list")
+      let lists = document.getElementsByClassName("list");
+
+      // Get references to the two containers where items can be dropped
+      let rightBox = document.getElementById("right");
+      let leftBox = document.getElementById("left");
+
+      // Global variable to store the currently dragged item
+      let selected = null;
+
+      // Loop through each draggable item and add event listeners
+      for (let list of lists) {
+        // Attach the 'dragstart' event to each item
+        list.addEventListener("dragstart", function (e) {
+          // Set the global 'selected' variable to the dragged item (e.target)
+          selected = e.target;
+        });
+      }
+
+      // Use a loop to attach 'dragover' and 'drop' events to both containers
+      [rightBox, leftBox].forEach((box) => {
+        // Allow the container to accept drops
+        box.addEventListener("dragover", function (e) {
+          e.preventDefault(); // Prevent the default behavior to allow dropping
+        });
+
+        // Handle the drop event
+        box.addEventListener("drop", function (e) {
+          if (selected) {
+            // Append the dragged item ('selected') to the current container (box)
+            box.appendChild(selected);
+
+            // Reset the 'selected' variable to null after the drop is complete
+            selected = null;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
